@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { createCampaign, deleteCampaign } from "@/app/admin/(protected)/campaigns/_actions/campaigns";
 import { Plus, Trash2, X } from "lucide-react";
-import { CampaignType } from "@prisma/client";
+import { CampaignType } from "@/lib/types";
 
 interface Campaign {
   id: string;

@@ -1,6 +1,6 @@
 "use server";
 
-import { CampaignType } from "@prisma/client";
+import { CampaignType } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 

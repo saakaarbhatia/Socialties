@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { updateLeadStatus } from "@/app/admin/(protected)/brand-leads/_actions/update-lead";
 import { X, Check, ArrowRight } from "lucide-react";
-import { LeadStatus } from "@prisma/client";
+import { LeadStatus } from "@/lib/types";
 
 interface BrandLead {
   id: string;

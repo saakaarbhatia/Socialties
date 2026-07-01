@@ -1,6 +1,6 @@
 "use server";
 
-import { ApplicationStatus } from "@prisma/client";
+import { ApplicationStatus } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 

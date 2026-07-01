@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { updateApplicationStatus } from "@/app/admin/(protected)/creator-applications/_actions/update-app";
 import { X, Check, Eye } from "lucide-react";
-import { ApplicationStatus } from "@prisma/client";
+import { ApplicationStatus } from "@/lib/types";
 
 interface CreatorApplication {
   id: string;

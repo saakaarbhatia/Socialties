@@ -1,6 +1,6 @@
 "use server";
 
-import { LeadStatus } from "@prisma/client";
+import { LeadStatus } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 
