@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+:root {
+  /* Brand core */
+  --brand-lime: #C6F135;        /* primary accent, from existing logo */
+  --brand-lime-dark: #9FCC1E;   /* hover/active state of lime */
+  --brand-ink: #0E0F12;         /* near-black, replaces flat dark gray */
+  --brand-ink-soft: #17181D;    /* elevated surface on dark theme */
+  --brand-cream: #F7F6F2;       /* warm off-white, light theme base */
+  --brand-violet: #7C5CFF;      /* secondary accent for gradients/CTAs */
+  --brand-coral: #FF6F59;       /* tertiary accent, used sparingly */
+
+  /* Semantic (light theme default) */
+  --background: var(--brand-cream);
+  --bg-elevated: #FFFFFF;
+  --foreground: #14151A;
+  --fg-muted: #5B5D68;
+  --border: #E7E5DE;
+  --accent: var(--brand-lime);
+  --accent-foreground: #0E0F12;
+
+  /* Gradient tokens */
+  --gradient-hero: linear-gradient(135deg, #0E0F12 0%, #1C1435 45%, #2A2050 100%);
+  --gradient-accent: linear-gradient(120deg, var(--brand-lime) 0%, #8FE85A 100%);
+  --gradient-glass: linear-gradient(160deg, rgba(255,255,255,0.14), rgba(255,255,255,0.02));
+}
+
+[data-theme='dark'] {
+  --background: var(--brand-ink);
+  --bg-elevated: var(--brand-ink-soft);
+  --foreground: #F5F5F2;
+  --fg-muted: #A6A8B3;
+  --border: #26272E;
+}
+
+@theme {
+  --color-brand-lime: var(--brand-lime);
+  --color-brand-lime-dark: var(--brand-lime-dark);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-ink-soft: var(--brand-ink-soft);
+  --color-brand-cream: var(--brand-cream);
+  --color-brand-violet: var(--brand-violet);
+  --color-brand-coral: var(--brand-coral);
+  
+  --color-background: var(--background);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-foreground: var(--foreground);
+  --color-fg-muted: var(--fg-muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+}

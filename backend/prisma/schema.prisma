@@ -1,0 +1,376 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─────────────────────────────────────────────
+// AUTH & RBAC
+// ─────────────────────────────────────────────
+
+enum RoleName {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+model Role {
+  id          String       @id @default(uuid())
+  name        RoleName     @unique
+  permissions Permission[]
+  users       User[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Permission {
+  id        String   @id @default(uuid())
+  key       String   @unique // e.g. "campaigns.write", "leads.export"
+  roles     Role[]
+  createdAt DateTime @default(now())
+}
+
+model User {
+  id            String    @id @default(uuid())
+  name          String
+  email         String    @unique
+  passwordHash  String
+  roleId        String
+  role          Role      @relation(fields: [roleId], references: [id])
+  sessions      Session[]
+  auditLogs     AuditLog[]
+  brandLeads    BrandLead[] @relation("AssignedLeads")
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  @@index([email])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  expires      DateTime
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  actorId    String
+  actor      User     @relation(fields: [actorId], references: [id])
+  action     String   // e.g. "CAMPAIGN_CREATE"
+  entityType String   // e.g. "Campaign"
+  entityId   String
+  diff       Json?
+  createdAt  DateTime @default(now())
+
+  @@index([entityType, entityId])
+  @@index([createdAt])
+}
+
+// ─────────────────────────────────────────────
+// CAMPAIGNS
+// ─────────────────────────────────────────────
+
+enum CampaignStatus {
+  DRAFT
+  LIVE
+  COMPLETED
+  ARCHIVED
+}
+
+enum CampaignType {
+  PRODUCT_LAUNCH
+  BRAND_AWARENESS
+  EVENT_PROMOTION
+  GIFTING
+  PERFORMANCE_ADS
+  AMBASSADOR_PROGRAM
+}
+
+model Campaign {
+  id            String          @id @default(uuid())
+  slug          String          @unique
+  brandName     String
+  brandLogoUrl  String?
+  budgetTier    String?         // display-friendly, e.g. "₹5L - ₹10L"
+  platforms     String[]        // ["INSTAGRAM","YOUTUBE",...]
+  type          CampaignType
+  status        CampaignStatus  @default(DRAFT)
+  startDate     DateTime?
+  endDate       DateTime?
+  reachTotal    BigInt?
+  metrics       Json?           // flexible key-value results, e.g. {"engagementRate": "6.2%"}
+  brief         String?         // rich text / markdown
+  strategy      String?
+  resultsNote   String?
+  coverImageUrl String?
+  featured      Boolean         @default(false)
+  sortOrder     Int             @default(0)
+  images        CampaignImage[]
+  videos        CampaignVideo[]
+  testimonials  Testimonial[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  deletedAt     DateTime?
+
+  @@index([status])
+  @@index([type])
+  @@index([featured])
+}
+
+model CampaignImage {
+  id                 String   @id @default(uuid())
+  campaignId         String
+  campaign           Campaign @relation(fields: [campaignId], references: [id])
+  url                String
+  cloudinaryPublicId String
+  altText            String?
+  sortOrder          Int      @default(0)
+  createdAt          DateTime @default(now())
+
+  @@index([campaignId])
+}
+
+model CampaignVideo {
+  id                 String   @id @default(uuid())
+  campaignId         String
+  campaign           Campaign @relation(fields: [campaignId], references: [id])
+  url                String
+  cloudinaryPublicId String
+  thumbnailUrl       String?
+  sortOrder          Int      @default(0)
+  createdAt          DateTime @default(now())
+
+  @@index([campaignId])
+}
+
+// ─────────────────────────────────────────────
+// TEAM
+// ─────────────────────────────────────────────
+
+model TeamMember {
+  id          String   @id @default(uuid())
+  name        String
+  designation String
+  photoUrl    String?
+  linkedin    String?
+  instagram   String?
+  email       String?
+  bio         String?
+  sortOrder   Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+}
+
+// ─────────────────────────────────────────────
+// CREATOR APPLICATIONS
+// ─────────────────────────────────────────────
+
+enum ApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model CreatorApplication {
+  id              String             @id @default(uuid())
+  fullName        String
+  instagramUrl    String?
+  youtubeUrl      String?
+  followers       Int?
+  category        String
+  phone           String
+  email           String
+  city            String
+  languages       String[]
+  contentTypes    String[]
+  engagementRate  Float?
+  averageViews    Int?
+  message         String?
+  mediaKitUrl     String?
+  profilePhotoUrl String?
+  status          ApplicationStatus  @default(PENDING)
+  reviewedById    String?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  deletedAt       DateTime?
+
+  @@index([status])
+  @@index([category])
+  @@index([createdAt])
+}
+
+// ─────────────────────────────────────────────
+// BRAND LEADS
+// ─────────────────────────────────────────────
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  WON
+  LOST
+}
+
+model BrandLead {
+  id                 String     @id @default(uuid())
+  companyName        String
+  website            String?
+  contactPerson      String
+  phone              String
+  email              String
+  campaignBudget     String
+  campaignObjectives String[]
+  targetAudience     String?
+  platforms          String[]
+  description        String
+  timeline           String?
+  fileUrl            String?
+  status             LeadStatus @default(NEW)
+  assignedToId       String?
+  assignedTo         User?      @relation("AssignedLeads", fields: [assignedToId], references: [id])
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+  deletedAt          DateTime?
+
+  @@index([status])
+  @@index([assignedToId])
+  @@index([createdAt])
+}
+
+// ─────────────────────────────────────────────
+// TESTIMONIALS
+// ─────────────────────────────────────────────
+
+enum TestimonialType {
+  TEXT
+  VIDEO
+}
+
+enum TestimonialAudience {
+  BRAND
+  CREATOR
+}
+
+model Testimonial {
+  id          String              @id @default(uuid())
+  authorName  String
+  authorRole  String?
+  companyName String?
+  content     String?
+  videoUrl    String?
+  rating      Int?
+  type        TestimonialType     @default(TEXT)
+  audience    TestimonialAudience
+  campaignId  String?
+  campaign    Campaign?           @relation(fields: [campaignId], references: [id])
+  isPublished Boolean             @default(true)
+  sortOrder   Int                 @default(0)
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  deletedAt   DateTime?
+
+  @@index([audience])
+  @@index([isPublished])
+}
+
+// ─────────────────────────────────────────────
+// SERVICES
+// ─────────────────────────────────────────────
+
+model Service {
+  id          String   @id @default(uuid())
+  slug        String   @unique
+  title       String
+  description String
+  icon        String   // lucide icon name
+  imageUrl    String?
+  sortOrder   Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ─────────────────────────────────────────────
+// GALLERY / MEDIA LIBRARY
+// ─────────────────────────────────────────────
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  DOCUMENT
+}
+
+model MediaLibrary {
+  id                 String    @id @default(uuid())
+  url                String
+  cloudinaryPublicId String    @unique
+  type               MediaType
+  sizeBytes          Int?
+  uploadedById       String?
+  createdAt          DateTime  @default(now())
+  deletedAt          DateTime?
+
+  @@index([type])
+}
+
+model Gallery {
+  id        String   @id @default(uuid())
+  title     String?
+  imageUrl  String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+// ─────────────────────────────────────────────
+// SITE CONFIG
+// ─────────────────────────────────────────────
+
+model HomepageSettings {
+  id                String   @id @default(uuid())
+  heroHeadline      String
+  heroSubheading    String
+  showreelUrl       String?
+  statCampaigns     Int      @default(0)
+  statBrands        Int      @default(0)
+  statCreators      Int      @default(0)
+  statReach         BigInt   @default(0)
+  trustedBrandLogos Json     // [{ name, logoUrl }]
+  updatedAt         DateTime @updatedAt
+}
+
+model SeoSetting {
+  id          String   @id @default(uuid())
+  pagePath    String   @unique // "/" , "/campaigns", etc.
+  title       String
+  description String
+  ogImageUrl  String?
+  keywords    String[]
+  updatedAt   DateTime @updatedAt
+}
+
+model ContactMessage {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String?
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  deletedAt DateTime?
+
+  @@index([isRead])
+  @@index([createdAt])
+}
