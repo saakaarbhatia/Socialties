@@ -180,6 +180,7 @@ model TeamMember {
   instagram   String?
   email       String?
   bio         String?
+  phone       String?
   sortOrder   Int      @default(0)
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
@@ -187,7 +188,6 @@ model TeamMember {
   deletedAt   DateTime?
 
   // Extended fields
-  phone           String?
   department      String?
   portfolio       String?
   experience      String?
@@ -354,6 +354,13 @@ model MediaLibrary {
   @@index([folderId])
 }
 
+model MediaFolder {
+  id        String         @id @default(uuid())
+  name      String         @unique
+  mediaList MediaLibrary[]
+  createdAt DateTime       @default(now())
+}
+
 model Gallery {
   id        String   @id @default(uuid())
   title     String?
@@ -466,13 +473,6 @@ model SystemSettings {
   showBanner         Boolean  @default(false)
   primaryColor       String   @default("#CCFF00") // default Socialties Lime
   updatedAt          DateTime @updatedAt
-}
-
-model MediaFolder {
-  id        String         @id @default(uuid())
-  name      String         @unique
-  mediaList MediaLibrary[]
-  createdAt DateTime       @default(now())
 }
 
 // ─────────────────────────────────────────────
