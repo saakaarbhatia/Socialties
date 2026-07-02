@@ -1,10 +1,8 @@
 import type { NextConfig } from "next";
-import path from "path";
 
 const nextConfig: NextConfig = {
-  // Fix Turbopack workspace root resolution in monorepo
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ...(({ experimental: { turbo: { root: path.resolve(__dirname) } } }) as any),
+  // Keep minimal config - Turbopack is enabled by default in Next.js 16+
+  // Don't set experimental.turbo as it causes build errors in deployment environments
 };
 
 export default nextConfig;
