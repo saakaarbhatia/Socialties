@@ -3,7 +3,7 @@ services:
     name: socialties-backend
     runtime: node
     plan: free
-    buildCommand: npm ci && npm run build:backend
+    buildCommand: npm ci && npm run build:backend && cd backend && npx prisma db push --accept-data-loss
     startCommand: npm run start:backend
     envVars:
       - key: NODE_VERSION
@@ -16,6 +16,8 @@ services:
         sync: false
       - key: ADMIN_EMAIL
         value: admin@socialties.in
+      - key: ADMIN_PASSWORD
+        sync: false
       - key: ADMIN_PASSWORD_HASH
         sync: false
       - key: ALLOWED_ORIGINS
