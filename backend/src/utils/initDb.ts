@@ -44,7 +44,27 @@ export async function initializeSettings() {
 
     // 2. Default Admin User
     const adminEmail = (process.env.ADMIN_EMAIL || "admin@socialties.in").trim().toLowerCase();
-    const passwordHash = process.env.ADMIN_PASSWORD_HASH || await bcrypt.hash("admin123", 12);
+
+    // Resolve admin password hash with multiple fallback strategies:
+    // Priority: ADMIN_PASSWORD (plaintext, hashed at startup) > ADMIN_PASSWORD_HASH (pre-hashed) > fallback "admin123"
+    let passwordHash: string;
+    const envHash = process.env.ADMIN_PASSWORD_HASH;
+    const envPlainPassword = process.env.ADMIN_PASSWORD;
+
+    if (envPlainPassword) {
+      // Best path: plaintext password in env — hash it fresh (avoids copy-paste hash issues)
+      passwordHash = await bcrypt.hash(envPlainPassword, 12);
+      console.log(`[initDb] Admin password: hashed from ADMIN_PASSWORD env var`);
+    } else if (envHash && envHash.startsWith("$2") && envHash.length > 50 && !envHash.includes("REPLACE")) {
+      // Pre-hashed password — validate it looks like a real bcrypt hash
+      passwordHash = envHash;
+      console.log(`[initDb] Admin password: using ADMIN_PASSWORD_HASH env var`);
+    } else {
+      // Fallback — no valid env vars configured
+      passwordHash = await bcrypt.hash("admin123", 12);
+      console.log(`[initDb] Admin password: using fallback (admin123) — set ADMIN_PASSWORD env var on Render!`);
+    }
+
     await db.user.upsert({
       where: { email: adminEmail },
       update: {
@@ -60,6 +80,8 @@ export async function initializeSettings() {
         isActive: true,
       },
     });
+    console.log(`[initDb] Admin user upserted: ${adminEmail}`);
+
 
     // 3. Homepage settings
     const homeSettings = await db.homepageSettings.findFirst();

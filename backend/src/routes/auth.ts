@@ -37,21 +37,31 @@ async function resolveUser(
   // 2. Env-var fallback (only used when DB is unreachable)
   const fallbackEmail = process.env.ADMIN_EMAIL;
   const fallbackHash = process.env.ADMIN_PASSWORD_HASH;
+  const fallbackPlainPassword = process.env.ADMIN_PASSWORD;
 
-  if (!fallbackEmail || !fallbackHash) {
-    // No env-var fallback configured — fail gracefully
-    return null;
-  }
+  if (!fallbackEmail) return null;
 
-  if (email === fallbackEmail.toLowerCase()) {
-    const valid = await bcrypt.compare(password, fallbackHash);
-    if (valid) {
+  if (email === fallbackEmail.trim().toLowerCase()) {
+    // Try ADMIN_PASSWORD (plaintext) first
+    if (fallbackPlainPassword && password === fallbackPlainPassword) {
       return {
         id: "env-fallback-admin",
         name: "Super Admin",
         email: fallbackEmail,
         role: "SUPER_ADMIN",
       };
+    }
+    // Then try ADMIN_PASSWORD_HASH (pre-hashed) — validate it's real
+    if (fallbackHash && fallbackHash.startsWith("$2") && fallbackHash.length > 50 && !fallbackHash.includes("REPLACE")) {
+      const valid = await bcrypt.compare(password, fallbackHash);
+      if (valid) {
+        return {
+          id: "env-fallback-admin",
+          name: "Super Admin",
+          email: fallbackEmail,
+          role: "SUPER_ADMIN",
+        };
+      }
     }
   }
 
