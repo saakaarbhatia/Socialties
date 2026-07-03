@@ -21,7 +21,7 @@ services:
       - key: ADMIN_PASSWORD_HASH
         sync: false
       - key: ALLOWED_ORIGINS
-        value: https://your-vercel-url.vercel.app,https://socialties.in
+        value: https://socialties-frontend.vercel.app/,https://socialties-frontend-git-main-socialties.vercel.app/,https://socialties-frontend-idfgljt7n-socialties.vercel.app/
       - key: BACKEND_URL
         sync: false
 
@@ -35,8 +35,8 @@ services:
       - key: NODE_VERSION
         value: 22.12.0
       - key: NEXT_PUBLIC_API_URL
-        value: https://socialties-backend.onrender.com
+        value: https://socialties-jxsv.onrender.com
       - key: NEXTAUTH_SECRET
         sync: false
       - key: NEXTAUTH_URL
-        value: https://your-vercel-url.vercel.app
+        value: https://socialties-frontend.vercel.app
