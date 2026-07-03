@@ -14,6 +14,8 @@ interface CompanyProfile {
   address?: string | null;
   workingHours?: string | null;
   googleMapsEmbedUrl?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
 }
 
 const DEFAULT_MAP = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3498.4891107577535!2d77.16854127622998!3d28.71985397571866!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d01867c4ec2a5%3A0xe543efb1c97a5530!2sAzadpur%2C%20Delhi!5e0!3m2!1sen!2sin!4v1719827000000!5m2!1sen!2sin";
@@ -115,6 +117,20 @@ export default function ContactPageClient({ company }: { company: CompanyProfile
                 loading="lazy"
               />
             </div>
+            {/* Fallback: Get Directions link — works even if the iframe embed URL is wrong or blocked */}
+            <a
+              href={
+                company?.latitude && company?.longitude
+                  ? `https://www.google.com/maps/dir/?api=1&destination=${company.latitude},${company.longitude}`
+                  : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
+              }
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-fg-muted hover:text-brand-lime transition-colors"
+            >
+              <MapPin size={12} className="text-brand-lime" />
+              Get Directions on Google Maps
+            </a>
           </div>
         </div>
 
