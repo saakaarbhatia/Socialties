@@ -21,8 +21,7 @@ services:
       - key: ADMIN_PASSWORD_HASH
         sync: false
       - key: ALLOWED_ORIGINS
-        value: https://socialties-frontend.vercel.app,https://socialties-frontend-git-main-socialties.vercel.app,https://socialties-frontend-idfgljt7n-socialties.vercel.app
-      - key: BACKEND_URL
+        value: https://socialties-frontend.vercel.app,https://socialties-frontend-git-main-socialties.vercel.app,https://socialties-frontend-hk0qsr06x-socialties.vercel.app
         sync: false
 
   - type: web
