@@ -64,7 +64,7 @@ export default async function Footer() {
 
   const showSocials = footer?.showSocialIcons ?? true;
   const address = company?.address ?? "Azadpur, New Delhi, India";
-  const phone = company?.phone ?? "+91 98765 43210";
+  const phone = company?.phone ?? "+91 78272 72880";
   const email = company?.email ?? "connect@socialties.in";
   const legalName = company?.legalName ?? "Pushpa Exim Private Limited";
 
@@ -80,14 +80,14 @@ export default async function Footer() {
 
           {showSocials && (
             <div className="flex space-x-3 flex-wrap gap-y-2">
-              {(company?.instagram ?? "https://instagram.com/socialties") && (
-                <a href={company?.instagram ?? "https://instagram.com/socialties"} target="_blank" rel="noreferrer"
+              {(company?.instagram ?? "https://instagram.com/socialties.in") && (
+                <a href={company?.instagram ?? "https://instagram.com/socialties.in"} target="_blank" rel="noreferrer"
                   className="p-2 bg-brand-ink-soft hover:bg-brand-lime hover:text-black rounded-lg transition-colors border border-border/10" aria-label="Instagram">
                   <Instagram size={18} />
                 </a>
               )}
-              {(company?.linkedin ?? "https://linkedin.com/company/socialties") && (
-                <a href={company?.linkedin ?? "https://linkedin.com/company/socialties"} target="_blank" rel="noreferrer"
+              {(company?.linkedin ?? "https://linkedin.com/company/lovesocialties") && (
+                <a href={company?.linkedin ?? "https://linkedin.com/company/lovesocialties"} target="_blank" rel="noreferrer"
                   className="p-2 bg-brand-ink-soft hover:bg-brand-lime hover:text-black rounded-lg transition-colors border border-border/10" aria-label="LinkedIn">
                   <Linkedin size={18} />
                 </a>
