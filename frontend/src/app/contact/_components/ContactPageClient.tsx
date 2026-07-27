@@ -29,7 +29,7 @@ export default function ContactPageClient({ company }: { company: CompanyProfile
     resolver: zodResolver(contactSchema),
   });
 
-  const phone = company?.phone ?? "+91 98765 43210";
+  const phone = company?.phone ?? "+91 78272 72880";
   const email = company?.email ?? "connect@socialties.in";
   const address = company?.address ?? "Azadpur, New Delhi, India";
   const workingHours = company?.workingHours ?? "Mon - Sat: 10:00 AM - 7:00 PM";
