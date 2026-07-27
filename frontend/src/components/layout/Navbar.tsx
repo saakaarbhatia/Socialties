@@ -169,10 +169,10 @@ export default function Navbar() {
                 For Creators
               </Link>
               <div className="flex justify-between items-center gap-4 pt-4">
-                <a href="tel:+919876543210" className="flex-1 py-3 flex items-center justify-center space-x-2 border border-border rounded-lg text-sm text-foreground/80 hover:text-foreground transition-all">
+                <a href="tel:+917827272880" className="flex-1 py-3 flex items-center justify-center space-x-2 border border-border rounded-lg text-sm text-foreground/80 hover:text-foreground transition-all">
                   <Phone size={16} /><span>Call Us</span>
                 </a>
-                <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer"
+                <a href="https://wa.me/917827272880" target="_blank" rel="noreferrer"
                   className="flex-1 py-3 flex items-center justify-center space-x-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm transition-all">
                   <MessageCircle size={16} /><span>WhatsApp</span>
                 </a>
