@@ -154,12 +154,12 @@ export async function initializeSettings() {
           address: "Azadpur, New Delhi, India",
           registrationDetails: "CIN: U74999DL2024PTC123456",
           email: "connect@socialties.in",
-          phone: "+91 98765 43210",
-          whatsapp: "+919876543210",
+          phone: "+91 78272 72880",
+          whatsapp: "+917827272880",
           workingHours: "Mon - Sat: 10:00 AM - 7:00 PM",
           googleMapsEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3498.4239855845943!2d77.1706692!3d28.7128522!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d024623bb4[...]",
-          instagram: "https://instagram.com/socialties",
-          linkedin: "https://linkedin.com/company/socialties",
+          instagram: "https://www.instagram.com/socialties.in",
+          linkedin: "https://www.linkedin.com/company/lovesocialties",
           youtube: "https://youtube.com/@socialties"
         }
       });
