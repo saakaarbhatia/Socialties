@@ -28,7 +28,7 @@ interface Props {
 const DEFAULTS: Record<string, CtaSection> = {
   brands_banner: { key: "brands_banner", headline: "Launch a campaign that drives real sales.", subtext: "Skip the vanity metrics. Partner with top vetted creators and run optimized social acquisition funnels built for ROI.", badge: "For Brands", ctaText: "Work With Us", ctaHref: "/brands", variant: "dark", isVisible: true },
   creators_banner: { key: "creators_banner", headline: "Turn your influence into consistent income.", subtext: "Get access to premium brand campaigns, transparent payouts, creative support, and long-term representation.", badge: "For Creators", ctaText: "Apply to Join", ctaHref: "/creators", variant: "dark", isVisible: true },
-  final_band: { key: "final_band", headline: "Ready to grow? Let's talk.", subtext: "Get in touch with our team to kickstart your next campaign today.", ctaText: "Call Us", ctaHref: "tel:+919876543210", ctaText2: "WhatsApp", ctaHref2: "https://wa.me/919876543210", variant: "gradient", isVisible: true },
+  final_band: { key: "final_band", headline: "Ready to grow? Let's talk.", subtext: "Get in touch with our team to kickstart your next campaign today.", ctaText: "Call Us", ctaHref: "tel:+917827272880", ctaText2: "WhatsApp", ctaHref2: "https://wa.me/917827272880", variant: "gradient", isVisible: true },
 };
 
 export default function CTASection({ ctaSections, companyPhone, companyWhatsapp, companyEmail }: Props) {
@@ -38,8 +38,8 @@ export default function CTASection({ ctaSections, companyPhone, companyWhatsapp,
   const final = sections.final_band;
 
   // Dynamic contact links from company profile
-  const phoneHref = companyPhone ? `tel:${companyPhone}` : final.ctaHref || "tel:+919876543210";
-  const waHref = companyWhatsapp ? `https://wa.me/${companyWhatsapp.replace(/\D/g, "")}` : final.ctaHref2 || "https://wa.me/919876543210";
+  const phoneHref = companyPhone ? `tel:${companyPhone}` : final.ctaHref || "tel:+917827272880";
+  const waHref = companyWhatsapp ? `https://wa.me/${companyWhatsapp.replace(/\D/g, "")}` : final.ctaHref2 || "https://wa.me/917827272880";
   const emailHref = companyEmail ? `mailto:${companyEmail}` : "mailto:connect@socialties.in";
 
   return (
