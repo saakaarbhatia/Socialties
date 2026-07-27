@@ -256,7 +256,7 @@ async function main() {
   const ctaSectionData = [
     { key: "brands_banner", headline: "Launch a campaign that drives real sales.", subtext: "Skip the vanity metrics. Partner with top vetted creators and run optimized social acquisition funnels built for ROI.", badge: "For Brands", ctaText: "Work With Us", ctaHref: "/brands", variant: "dark" },
     { key: "creators_banner", headline: "Turn your influence into consistent income.", subtext: "Get access to premium brand campaigns, transparent payouts, creative support, and long-term representation.", badge: "For Creators", ctaText: "Apply to Join", ctaHref: "/creators", variant: "dark" },
-    { key: "final_band", headline: "Ready to grow? Let's talk.", subtext: "Get in touch with our team to kickstart your next campaign today.", ctaText: "Call Us", ctaHref: "tel:+919876543210", ctaText2: "WhatsApp", ctaHref2: "https://wa.me/919876543210", variant: "gradient" },
+    { key: "final_band", headline: "Ready to grow? Let's talk.", subtext: "Get in touch with our team to kickstart your next campaign today.", ctaText: "Call Us", ctaHref: "tel:+917827272880", ctaText2: "WhatsApp", ctaHref2: "https://wa.me/917827272880", variant: "gradient" },
   ];
   for (const cta of ctaSectionData) {
     await prisma.ctaSection.upsert({
